@@ -72,3 +72,12 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+.idea/
+Plugins/Developer/RiderLink/
+Content/thirdparty/
+.vsconfig
+
+Content/*
+
+#But do not ignore the games content
+!Content/_Game/
