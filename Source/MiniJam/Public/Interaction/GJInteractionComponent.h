@@ -42,13 +42,5 @@ private:
 	float TraceRadius;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Trace")
-	TEnumAsByte<ECollisionChannel> CollisionChannel;
-
-	//UPROPERTY(EditDefaultsOnly, Category = "UI")
-	//TSubclassOf<UTCWorldUserWidget> DefaultWidgetClass;
-
-	//UPROPERTY()
-	//UTCWorldUserWidget* DefaultWidgetInstance;
-	
-		
+	TEnumAsByte<ECollisionChannel> CollisionChannel;		
 };
