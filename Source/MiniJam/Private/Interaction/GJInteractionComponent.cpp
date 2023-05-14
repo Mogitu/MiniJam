@@ -10,9 +10,10 @@ UGJInteractionComponent::UGJInteractionComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	TraceRadius = 30.0f;
+	TraceRadius = 15.0f;
 	TraceDistance = 300.0f;
 	CollisionChannel = ECC_WorldDynamic;
+	bDisplayDebugTraces = false;
 }
 
 // Called when the game starts
@@ -49,11 +50,22 @@ void UGJInteractionComponent::FindBestInteractable()
 
 	bool bBlockingHit = GetWorld()->SweepMultiByObjectType(Hits, EyeLocation, End, FQuat::Identity, ObjectQueryParams,
 	                                                       Shape);
+
+	FColor LineColor = bBlockingHit ? FColor::Green : FColor::Red;
+	if (bDisplayDebugTraces)
+	{
+		DrawDebugLine(GetWorld(), EyeLocation, End, LineColor, false, 0.5f, 0, 0.0f);
+	}
+
 	if (bBlockingHit)
 	{
 		for (FHitResult Hit : Hits)
 		{
-			// DrawDebugSphere(GetWorld(), Hit.ImpactPoint, TraceRadius, 32, LineColor, false, 0.0f);		
+			if (bDisplayDebugTraces)
+			{
+				DrawDebugSphere(GetWorld(), Hit.ImpactPoint, TraceRadius, 32, LineColor, false, 0.0f);
+			}
+
 			AActor* HitActor = Hit.GetActor();
 			if (HitActor && HitActor->Implements<UGJInteractionInterface>())
 			{
@@ -64,6 +76,11 @@ void UGJInteractionComponent::FindBestInteractable()
 					MeshComp->SetOverlayMaterial(HighlightMaterial);
 				}
 				break;
+			}
+
+			if (bDisplayDebugTraces)
+			{
+				DrawDebugSphere(GetWorld(), Hit.ImpactPoint, TraceRadius, 32, LineColor, false, 0.0f);
 			}
 		}
 		return;

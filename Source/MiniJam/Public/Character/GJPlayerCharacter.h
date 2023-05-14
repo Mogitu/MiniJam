@@ -23,6 +23,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual FVector GetPawnViewLocation() const override;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

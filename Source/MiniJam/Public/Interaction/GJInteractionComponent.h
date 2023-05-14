@@ -32,6 +32,9 @@ private:
 	UPROPERTY()
 	AActor* FocusedActor;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Trace")
+	bool bDisplayDebugTraces;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Visuals")
 	UMaterialInterface* HighlightMaterial;
 	

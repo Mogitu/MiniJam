@@ -30,6 +30,11 @@ void AGJPlayerCharacter::BeginPlay()
 	}
 }
 
+FVector AGJPlayerCharacter::GetPawnViewLocation() const
+{
+	return CameraComponent->GetComponentLocation();
+}
+
 // Called every frame
 void AGJPlayerCharacter::Tick(float DeltaTime)
 {
