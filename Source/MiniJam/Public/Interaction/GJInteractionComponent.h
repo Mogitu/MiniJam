@@ -7,12 +7,12 @@
 #include "GJInteractionComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class MINIJAM_API UGJInteractionComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UGJInteractionComponent();
 
@@ -20,24 +20,25 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
+	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 	void Interact();
 
 private:
 	void FindBestInteractable();
-	
+
 	UPROPERTY()
 	AActor* FocusedActor;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Trace")
+	UPROPERTY(EditAnywhere, Category = "Debug")
 	bool bDisplayDebugTraces;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Visuals")
 	UMaterialInterface* HighlightMaterial;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = "Trace")
 	float TraceDistance;
 
@@ -45,5 +46,5 @@ private:
 	float TraceRadius;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Trace")
-	TEnumAsByte<ECollisionChannel> CollisionChannel;		
+	TEnumAsByte<ECollisionChannel> CollisionChannel;
 };
