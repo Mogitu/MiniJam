@@ -69,12 +69,14 @@ void UGJInteractionComponent::FindBestInteractable()
 			AActor* HitActor = Hit.GetActor();
 			if (HitActor && HitActor->Implements<UGJInteractionInterface>())
 			{
-				FocusedActor = HitActor;
-				auto MeshComp = FocusedActor->FindComponentByClass<UMeshComponent>();
-				if (MeshComp != nullptr && HighlightMaterial != nullptr)
+				auto MeshComp = HitActor->FindComponentByClass<UMeshComponent>();
+
+				//Change the overlay material when the current focussedactor is not equal to the hit actor to save some cpu cycles.				
+				if (HitActor != FocusedActor && MeshComp != nullptr && HighlightMaterial != nullptr)
 				{
 					MeshComp->SetOverlayMaterial(HighlightMaterial);
 				}
+				FocusedActor = HitActor;
 				break;
 			}
 
