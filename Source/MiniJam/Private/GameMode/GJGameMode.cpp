@@ -3,3 +3,7 @@
 
 #include "..\..\Public\GameMode\GJGameMode.h"
 
+void AGJGameMode::OnActorKilled(AActor* Victim, AActor* Killer)
+{
+	Victim->Destroy();
+}

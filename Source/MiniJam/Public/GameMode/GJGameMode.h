@@ -13,5 +13,7 @@ UCLASS()
 class MINIJAM_API AGJGameMode : public AGameMode
 {
 	GENERATED_BODY()
-	
+
+public:
+	void OnActorKilled(AActor* Victim, AActor* Killer);
 };

@@ -3,6 +3,8 @@
 
 #include "Common/GJHealthComponent.h"
 
+#include "GameMode/GJGameMode.h"
+
 UGJHealthComponent* UGJHealthComponent::GetHealthComponent(AActor* FromActor)
 {
 	if (FromActor)
@@ -33,5 +35,14 @@ void UGJHealthComponent::ApplyHealthChange(AActor* Instigator, float Delta)
 	if (ActualDelta != 0.0f)
 	{
 		OnHealthChanged.Broadcast(Instigator, this, Health, ActualDelta);
+	}
+
+	if (ActualDelta < 0.0f && Health == 0.0f)
+	{
+		AGJGameMode* GM = GetWorld()->GetAuthGameMode<AGJGameMode>();
+		if (GM)
+		{
+			GM->OnActorKilled(GetOwner(), Instigator);
+		}
 	}
 }
