@@ -3,32 +3,35 @@
 
 #include "Common/GJHealthComponent.h"
 
+UGJHealthComponent* UGJHealthComponent::GetHealthComponent(AActor* FromActor)
+{
+	if (FromActor)
+	{
+		return FromActor->FindComponentByClass<UGJHealthComponent>();
+	}
+	return nullptr;
+}
+
 // Sets default values for this component's properties
 UGJHealthComponent::UGJHealthComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	MaxHealth = 100.0f;
+	Health = MaxHealth;
 }
 
-
-// Called when the game starts
-void UGJHealthComponent::BeginPlay()
+void UGJHealthComponent::ApplyHealthChange(AActor* Instigator, float Delta)
 {
-	Super::BeginPlay();
+	float OldHealth = Health;
+	float NewHealth = FMath::Clamp(Health + Delta, 0.0f, MaxHealth);
 
-	// ...
-	
+	float ActualDelta = NewHealth - OldHealth;
+
+	Health = NewHealth;
+	if (ActualDelta != 0.0f)
+	{
+		OnHealthChanged.Broadcast(Instigator, this, Health, ActualDelta);
+	}
 }
-
-
-// Called every frame
-void UGJHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-

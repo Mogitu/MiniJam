@@ -6,23 +6,32 @@
 #include "Components/ActorComponent.h"
 #include "GJHealthComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, InstigatorActor, UGJHealthComponent*,
+                                              OwningComp, float, NewHealth, float, Delta);
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class MINIJAM_API UGJHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	static UGJHealthComponent* GetHealthComponent(AActor* FromActor);
+
 	// Sets default values for this component's properties
 	UGJHealthComponent();
 
+	UPROPERTY(BlueprintAssignable, Category="Health")
+	FOnHealthChanged OnHealthChanged;
+
+	UFUNCTION(BlueprintCallable, Category="Health")
+	void ApplyHealthChange(AActor* Instigator, float Delta);
+
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+	UPROPERTY(BlueprintReadOnly, Category="Health")
+	float Health;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Health")
+	float MaxHealth;
 };
